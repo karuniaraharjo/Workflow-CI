@@ -1,0 +1,28 @@
+name: CI - Train Titanic Model
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:   # bisa dijalankan manual dari tab Actions
+
+jobs:
+  train:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          pip install mlflow==2.19.0 scikit-learn pandas numpy
+
+      - name: Run MLflow Project
+        run: |
+          cd MLProject
+          mlflow run . --env-manager=local -e main
